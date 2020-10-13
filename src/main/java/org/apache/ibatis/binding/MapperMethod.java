@@ -88,18 +88,27 @@ public class MapperMethod {
   }
 
   //这个方法对返回值的类型进行了一些检查，使得更安全
+
+  /**
+   * 计算当前sql操作影响的结果，并按照Mapper接口中的方法返回格式封装返回参数，改方法只被 {@link SqlSession#insert(String, Object)},
+   * {@link SqlSession#update(String, Object)}, {@link SqlSession#delete(String, Object)} 类型的操作执行完成后使用，SELECT 类型
+   * 的操作不会调用该方法
+   *
+   * @param rowCount
+   * @return
+   */
   private Object rowCountResult(int rowCount) {
     final Object result;
     if (method.returnsVoid()) {
       result = null;
     } else if (Integer.class.equals(method.getReturnType()) || Integer.TYPE.equals(method.getReturnType())) {
-      //如果返回值是大int或小int
+      // Mapper interface 中定义的方法的返回值是 int 类型 （包括Integer 和 int）
       result = Integer.valueOf(rowCount);
     } else if (Long.class.equals(method.getReturnType()) || Long.TYPE.equals(method.getReturnType())) {
-      //如果返回值是大long或小long
+      // Mapper interface 中定义的方法的返回值是 long 类型
       result = Long.valueOf(rowCount);
     } else if (Boolean.class.equals(method.getReturnType()) || Boolean.TYPE.equals(method.getReturnType())) {
-      //如果返回值是大boolean或小boolean
+      //Mapper interface 中定义的方法的返回值是 bool 类型
       result = Boolean.valueOf(rowCount > 0);
     } else {
       throw new BindingException("Mapper method '" + command.getName() + "' has an unsupported return type: " + method.getReturnType());

@@ -24,6 +24,8 @@ import org.apache.ibatis.reflection.ExceptionUtil;
 import org.apache.ibatis.session.SqlSession;
 
 /**
+ * 该类主要实现{@link InvocationHandler}, {@code InvocationHandler} 是Java代理中的重要的成员
+ *
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
